@@ -1,0 +1,15 @@
+000 observations (subset of cps4.dat)
+
+	wage        earnings per hour (guadagni all'ora)
+	educ        years of education (anni di istruzione)
+	exper       post education years experience (anni di esperienza post-istruzione) 
+	hrswk       usual hours worked per week (orario di lavoro settimanale)
+	married     = 1 if married (sposato)
+	female      = 1 if female (femmina)
+	metro       = 1 if lives in metropolitan area (vive in un'area metropolitana)
+	midwest     = 1 if lives in midwest 
+	south       = 1 if lives in south
+	west        = 1 if lives in west
+	black       = 1 if black
+	asian       = 1 if asian
+Costruire un modello di regressione lineare spiegare WAGE.

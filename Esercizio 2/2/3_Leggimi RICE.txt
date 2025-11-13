@@ -1,0 +1,5 @@
+Il file rice.dat contiene 352 osservazioni su 44 coltivatori di riso nella regione di Tarlac 
+nelle Filippine per gli 8 anni dal 1990 al 1997. Le variabili nel set di dati sono tonnellate 
+di riso appena trebbiato (PROD), ettari piantati (AREA), persone- giorni di assunzione e
+lavoro familiare (LABOR) e chilogrammi di fertilizzante (FERT). Costruire un modello di regressione
+lineare per la variabile dipendente PROD.

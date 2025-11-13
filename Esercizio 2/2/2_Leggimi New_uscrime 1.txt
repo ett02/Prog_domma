@@ -1,0 +1,13 @@
+New_uscrime 1.txt 
+E' un sottoinsieme di un data set contenente diverse variabili rilevate su 47 stati americani nel 1960 relative
+ad alcuni indicatori socio-demografici.
+La variabile di interesse è il tasso di criminalità (Crime), inteso come numero di crimini denunciati 
+per milione di abitanti. Obiettivo dell'analisi è studiare la relazione tra il tasso di criminalità e 
+e i seguenti regressori:
+Po1 : spesa pro-capite per protezione da parte della polizia nel 1960
+Ineq : indice di disuguaglilanza dei redditi (percentuale di famiglie con reddito al di sotto della 
+metà del livello di reddito mediano)
+U1 : percentuale di disoccupati maschili di età 14-24 nelle città
+So : variabile indicatrice per Stato del Sud (0=No, 1=Si)
+M.F : numero di maschi per 100 femmine
+Prob : probabilità di essere imprigionati

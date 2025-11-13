@@ -1,0 +1,11 @@
+nel file spesa.txt sono contenute le informazioni su 100 famiglie relativamente a
+ spesa : spesa alimentare
+ reddito : reddito familiare
+ figli : numero figli
+ metri : metri quadri abitazione
+ sesso : sesso del capofamiglia (1=M)
+ genitori :  dummy per entrambi i genitori che lavorano (1=si)
+ zona : zona di abitazione (1=Urbana)
+
+ Si costruisca un modello di regressione lineare che spieghi la spesa per alimenti delle famiglie considerate
+in funzione dei regressori disponibili.

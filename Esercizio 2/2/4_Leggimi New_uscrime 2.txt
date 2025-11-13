@@ -1,0 +1,19 @@
+New_uscrime 2.txt
+E' un sottoinsieme di un data set contenente diverse variabili rilevate su 47 stati americani nel 1960 relative
+ad alcuni indicatori socio-demografici.
+La variabile di interesse è il tasso di criminalità (Crime), inteso come numero di crimini denunciati 
+per milione di abitanti. Obiettivo dell'analisi è studiare la relazione tra il tasso di criminalità e 
+e i seguenti regressori:
+Po2 : spesa pro-capite per protezione da parte della polizia
+Wealth : valore mediano del patrimonio familiare
+U2 : percentuale di disoccupati nei maschi di età 35-39 nelle città
+M : percentuale di maschi di età 14-24 nella popolazione totale dello stato
+LF : quota di partecipazione della forza lavoro per maschi di età 14-24 nelle città
+Time : numero medio di mesi passati in prigione da chi commette un crimine, prima di essere 
+rilasciato per la prima volta
+Ed : numero medio di anni di scuola per persona di età uguale o superiore a 25 anni
+
+Costruire un modello di regressione lineare che spieghi il tasso di criminalità 
+in funzione dei regressori disponibili, verificando la possibile esistenza di multicollinearità ed eteroschedasticità.
+
+Dire quale delle tecniche di regolarizzazione viste a lezione presenta il minor mse test.
