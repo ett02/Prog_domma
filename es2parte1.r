@@ -2,7 +2,7 @@ library(readxl)
 
 # --- PUNTO 1: LETTURA E PREPARAZIONE DATI ---
 
-file_path <- "C:/uniLM/Modelli statistici/Esercizio 2/Parte1/Serie Storiche Mensili _ ISTAT.xlsx"
+file_path <- "C:/Users/Ettore/Prog_domma_2/Esercizio 2/1/Serie Storiche Mensili _ ISTAT.xlsx"
 dati_istat <- read_excel(file_path)
 
 # Prendo solo le righe contenenti dati (da riga 8 in poi)
@@ -82,7 +82,7 @@ build_formula <- function(o1, o2, o3) {
 
 # --- PUNTO 4: SCELTA DEGLI ORDINI DA TESTARE ---
 orders1 <- c(1, 2) # Segmento 1: prova lineare (1) e quadratico (2)
-orders2 <- c(1, 2) # Segmento 2: prova lineare (1) e quadratico (2)
+orders2 <- c(1, 2, 3) # Segmento 2: prova lineare (1) e quadratico (2)
 orders3 <- c(2, 3) # Segmento 3: prova quadratico (2) e cubico (3)
 
 results <- list() # Lista vuota per salvare i risultati
@@ -161,7 +161,7 @@ Adj. R-squared: %.4f
 Prop. Termini Significativi: %.2f
 Score: %.4f
 ", 
-            best$o1, best$o2, best$o3, best$adjr, best$prop_signif, best$score))
+  best$o1, best$o2, best$o3, best$adjr, best$prop_signif, best$score))
 
 # Stampa il summary completo del modello migliore
 print(summary(best$model))
@@ -180,11 +180,7 @@ legend("topleft",
        lwd = c(1, 2),
        bty = "n")
 
-
-
 # --- STIMA TREND POLINOMIALI ---
-
-
 
 # Trend lineare (ordine 1)
 pol1_import <- lm(import_volumi ~ poly(t, 1, raw = TRUE))
@@ -197,8 +193,6 @@ trend_pol2 <- fitted(pol2_import)
 # Trend cubico (ordine 3)
 pol3_import <- lm(import_volumi ~ poly(t, 3, raw = TRUE))
 trend_pol3 <- fitted(pol3_import)
-
-
 
 # Mostra i risultati dei modelli
 
@@ -214,43 +208,28 @@ cat("\nAdjusted R-squared Trend cubico: ")
 cat(summary(pol3_import)$adj.r.squared)
 cat("\n")
 
-cat("\nAdjusted R-squared Trend grado 4: ")
-cat(summary(pol4_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 5: ")
-cat(summary(pol5_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 6: ")
-cat(summary(pol6_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 7: ")
-cat(summary(pol7_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 8: ")
-cat(summary(pol8_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 9: ")
-cat(summary(pol9_import)$adj.r.squared)
-cat("\n")
-
-cat("\nAdjusted R-squared Trend grado 77: ")
-cat(summary(pol77_import)$adj.r.squared)
-cat("\n")
-
 # --- AGGIUNGI TREND AL GRAFICO ---
 
-lines(data, trend_pol1, col = "orange", lwd = 2)   # Ordine 1
-lines(data, trend_pol2, col = "purple", lwd = 2)   # Ordine 2
-lines(data, trend_pol3, col = "green", lwd = 2)    # Ordine 3
+lines(datazione, trend_pol1, col = "orange", lwd = 2)   # Ordine 1
+lines(datazione, trend_pol2, col = "purple", lwd = 2)   # Ordine 2
+lines(datazione, trend_pol3, col = "green", lwd = 2)    # Ordine 3
 
-# --- LEGENDA ---
+# --- LEGENDA FUORI DAL GRAFICO (a destra, non coperta) ---
+par(xpd=TRUE)  # disegna fuori dal plot box
+legend("topright",
+       inset = c(-0.35, 0),   # sposta la legenda fuori a destra
+       legend = c("Serie originale",
+                  "Trend lineare (ordine 1)",
+                  "Trend quadratico (ordine 2)",
+                  "Trend cubico (ordine 3)"),
+       col = c("blue", "orange", "purple", "green"),
+       lwd = c(1, 2, 2, 2),
+       bty = "n",             # niente bordo
+       cex = 0.7)             # dimensione piccola della legenda
+par(xpd=FALSE) # torna al comportamento normale
 
-
+# (Opzionale) Ripristina margini predefiniti per eventuali altri plot dopo
+par(mar = c(5, 4, 4, 2))
 
 # --- TEST DA GRADO 1 A GRADO 10 ---
 
@@ -291,7 +270,7 @@ plot(results_df$Grado, results_df$Adj_R_Squared,
      col = "blue",
      pch = 19,
      cex = 0.7,
-     ylim = c(min(results_df$Adj_R_Squared, na.rm = TRUE), 0.5) # Assicura che l'asse y arrivi a 1
+     ylim = c(min(results_df$Adj_R_Squared, na.rm = TRUE), 1.0) # Assicura che l'asse y arrivi a 1
 )
 grid()
 
