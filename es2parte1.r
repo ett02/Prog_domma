@@ -259,26 +259,3 @@ for (i in 1:max_degree) {
   }
 }
 cat("Stima completata.\n\n")
-
-# --- GRAFICO R-QUADRO CORRETTO VS. GRADO POLINOMIO ---
-
-plot(results_df$Grado, results_df$Adj_R_Squared,
-     type = "b",  # "b" sta per "both" (punti e linee)
-     main = "R-Quadro Corretto al crescere del Grado del Polinomio",
-     xlab = "Grado del Polinomio",
-     ylab = "R-Quadro Corretto",
-     col = "blue",
-     pch = 19,
-     cex = 0.7,
-     ylim = c(min(results_df$Adj_R_Squared, na.rm = TRUE), 1.0) # Assicura che l'asse y arrivi a 1
-)
-grid()
-
-# Trova e segna il punto di massimo R-quadro corretto
-best_degree <- which.max(results_df$Adj_R_Squared)
-best_r2 <- results_df$Adj_R_Squared[best_degree]
-
-points(best_degree, best_r2, col = "red", pch = 17, cex = 1.5)
-text(best_degree, best_r2, 
-     paste("Max:", round(best_r2, 4), "\nGrado:", best_degree), 
-     pos = 4, col = "red")
