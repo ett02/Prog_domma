@@ -82,7 +82,7 @@ build_formula <- function(o1, o2, o3) {
 
 # --- PUNTO 4: SCELTA DEGLI ORDINI DA TESTARE ---
 orders1 <- c(1, 2) # Segmento 1: prova lineare (1) e quadratico (2)
-orders2 <- c(1, 2, 3) # Segmento 2: prova lineare (1) e quadratico (2)
+orders2 <- c(1, 2) # Segmento 2: prova lineare (1) e quadratico (2)
 orders3 <- c(2, 3) # Segmento 3: prova quadratico (2) e cubico (3)
 
 results <- list() # Lista vuota per salvare i risultati
