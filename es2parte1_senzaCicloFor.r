@@ -55,30 +55,37 @@ df <- data.frame(datazione = datazione,
                  d3 = d3)
 
 # --- COSTRUZIONE FORMULA SEGMENTATA ---
-formula_segmentata <- import_volumi ~ seg + I(t * d1) + I(t * d2) + I(t * d3)
+pol__grado_111 <- import_volumi ~ seg + I(t * d1) + I(t * d2) + I(t * d3)
 # 'seg' stima un'intercetta diversa per ogni segmento
 # 'I(t * d1)' ecc. stima un trend diverso per ogni segmento
 # La funzione I() assicura che R calcoli (t * d1) prima di inserirlo nel modello.
 
 #--- STIMA TREND CON POLINOMI LINEARI PER OGNI SEGMENTO (1, 1,) ---
 # Stima il modello lineare usando la formula segmentata
-pol1_seg111 <- lm(formula_segmentata, data = df)
+modello_stimato_grado_111 <- lm(pol__grado_111, data = df)
 
 # Estrai i valori stimati (la linea del trend)
-trend_pol1_seg111 <- fitted(pol1_seg111)
+trend_pol1_seg111 <- fitted(modello_stimato_grado_111)
 
 # --- STAMPA RISULTATI ---
 cat("\n--- Summary del Trend Lineare Segmentato (1, 1, 1) ---\n")
-s <- summary(pol1_import_segmentato)
+s <- summary(modello_stimato_grado_111)
 print(s)
-cat("Adjusted R-squared Trend Segmentato:")
-cat(s$adj.r.squared)
-cat("\n")
+cat("--- Significatività Globale del Modello (F-test): ")
+fstat <- s$fstatistic
+# Calcola il p-value da F
+p_value_f <- pf(fstat["value"], fstat["numdf"], fstat["dendf"], lower.tail = FALSE)
+cat("Valore p (p-value)=", p_value_f, "\n")
+# Interpretazione
+if (p_value_f < 0.05) {
+  cat("Risultato: Il modello nel suo complesso è statisticamente significativo (p < 0.05).\n")
+} else {
+  cat("Risultato: Il modello nel suo complesso NON è statisticamente significativo (p >= 0.05).\n")
+}
 
 # --- GRAFICO DEL MODELLO MIGLIORE ---
 
 # Aggiungi i valori stimati dal modello MIGLIORE al grafico
-# fitted(best$model) estrae i valori predetti (le ordinate stimate
 lines(datazione, trend_pol1_seg111, col = "red", lwd = 2)
 
 # Aggiungi una legenda
