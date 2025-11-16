@@ -54,44 +54,109 @@ df <- data.frame(datazione = datazione,
                  d2 = d2,
                  d3 = d3)
 
-# --- COSTRUZIONE FORMULA SEGMENTATA ---
+# --- COSTRUZIONE FORMULA SEGMENTATA (1, 1, 1) ---
 pol__grado_111 <- import_volumi ~ seg + I(t * d1) + I(t * d2) + I(t * d3)
 # 'seg' stima un'intercetta diversa per ogni segmento
 # 'I(t * d1)' ecc. stima un trend diverso per ogni segmento
 # La funzione I() assicura che R calcoli (t * d1) prima di inserirlo nel modello.
 
-#--- STIMA TREND CON POLINOMI LINEARI PER OGNI SEGMENTO (1, 1,) ---
+#--- STIMA TREND CON POLINOMI LINEARI PER OGNI SEGMENTO (1, 1, 1) ---
 # Stima il modello lineare usando la formula segmentata
 modello_stimato_grado_111 <- lm(pol__grado_111, data = df)
-
 # Estrai i valori stimati (la linea del trend)
 trend_pol1_seg111 <- fitted(modello_stimato_grado_111)
 
-# --- STAMPA RISULTATI ---
+# --- STAMPA RISULTATI (1,1,1) ---
 cat("\n--- Summary del Trend Lineare Segmentato (1, 1, 1) ---\n")
-s <- summary(modello_stimato_grado_111)
-print(s)
-cat("--- Significatività Globale del Modello (F-test): ")
-fstat <- s$fstatistic
-# Calcola il p-value da F
-p_value_f <- pf(fstat["value"], fstat["numdf"], fstat["dendf"], lower.tail = FALSE)
-cat("Valore p (p-value)=", p_value_f, "\n")
-# Interpretazione
-if (p_value_f < 0.05) {
-  cat("Risultato: Il modello nel suo complesso è statisticamente significativo (p < 0.05).\n")
-} else {
-  cat("Risultato: Il modello nel suo complesso NON è statisticamente significativo (p >= 0.05).\n")
-}
+print(summary(modello_stimato_grado_111))
 
-# --- GRAFICO DEL MODELLO MIGLIORE ---
+#-------------------------------------------------------------------------------
 
-# Aggiungi i valori stimati dal modello MIGLIORE al grafico
-lines(datazione, trend_pol1_seg111, col = "red", lwd = 2)
+# --- COSTRUZIONE FORMULA SEGMENTATA (1, 2, 1) ---
+pol__grado_121 <- import_volumi ~ seg + I(t * d1) +
+  I(t * d2) + I(t^2 * d2) + I(t * d3)
+
+#--- STIMA TREND (1, 2, 1) ---
+modello_stimato_grado_121 <- lm(pol__grado_121, data = df)
+trend_pol_seg121 <- fitted(modello_stimato_grado_121)
+
+# --- STAMPA RISULTATI (1, 2, 1) ---
+cat("\n--- Summary del Trend Segmentato (1, 2, 1) ---\n")
+print(summary(modello_stimato_grado_121))
+
+#-------------------------------------------------------------------------------
+
+# --- COSTRUZIONE FORMULA SEGMENTATA (2, 2, 2) ---
+pol__grado_222 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t * d3) + I(t^2 * d3)
+
+#--- STIMA TREND (2, 2, 2) ---
+modello_stimato_grado_222 <- lm(pol__grado_222, data = df)
+trend_pol_seg222 <- fitted(modello_stimato_grado_222)
+
+# --- STAMPA RISULTATI (2, 2, 2) ---
+cat("\n--- Summary del Trend Quadratico Segmentato (2, 2, 2) ---\n")
+print(summary(modello_stimato_grado_222))
+
+#-------------------------------------------------------------------------------
+
+# --- COSTRUZIONE FORMULA SEGMENTATA (2, 2, 1) ---
+pol__grado_221 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t * d3)
+
+#--- STIMA TREND (2, 2, 1) ---
+modello_stimato_grado_221 <- lm(pol__grado_221, data = df)
+trend_pol_seg221 <- fitted(modello_stimato_grado_221)
+
+# --- STAMPA RISULTATI (2, 2, 1) ---
+cat("\n--- Summary del Trend Quadratico Segmentato (2, 2, 1) ---\n")
+print(summary(modello_stimato_grado_221))
+
+#-------------------------------------------------------------------------------
+
+# --- COSTRUZIONE FORMULA SEGMENTATA (2, 3, 2) ---
+pol__grado_232 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3)
+
+#--- STIMA TREND (2, 3, 2) ---
+modello_stimato_grado_232 <- lm(pol__grado_232, data = df)
+trend_pol_seg232 <- fitted(modello_stimato_grado_232)
+
+# --- STAMPA RISULTATI (2, 3, 2) ---
+cat("\n--- Summary del Trend Quadratico Segmentato (2, 3, 2) ---\n")
+print(summary(modello_stimato_grado_232))
+
+#-------------------------------------------------------------------------------
+
+# --- COSTRUZIONE FORMULA SEGMENTATA (3, 3, 3) ---
+pol__grado_333 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + I(t^3 * d1) +
+  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3) + I(t^3 * d3)
+
+#--- STIMA TREND (3, 3, 3) ---
+modello_stimato_grado_333 <- lm(pol__grado_333, data = df)
+trend_pol_seg333 <- fitted(modello_stimato_grado_333)
+
+# --- STAMPA RISULTATI (3, 3, 3) ---
+cat("\n--- Summary del Trend Quadratico Segmentato (3, 3, 3) ---\n")
+print(summary(modello_stimato_grado_333))
+
+#-------------------------------------------------------------------------------
+
+# --- GRAFICO DEI TREND ---
+
+# Aggiungi i valori stimati dai modelli al grafico
+lines(datazione, trend_pol1_seg111, col = "purple", lwd = 2)
+lines(datazione, trend_pol_seg222, col = "red", lwd = 2)
+lines(datazione, trend_pol_seg232, col = "orange", lwd = 2)
+lines(datazione, trend_pol_seg333, col = "green", lwd = 2)
 
 # Aggiungi una legenda
 legend("topleft",
        legend = c("Serie originale", 
-                  paste("Trend segmentato 1, 1, 1")),
-       col = c("blue", "red"),
-       lwd = c(1, 2),
+                  "Trend segmentato 1, 1, 1",
+                  "Trend segmentato 2, 2, 2",
+                  "Trend segmentato 2, 3, 2",
+                  "Trend segmentato 3, 3, 3"),
+       col = c("blue", "purple","red", "orange", "green"),
+       lwd = c(1, 2, 2),
        bty = "n")
