@@ -77,7 +77,7 @@ Multiple R-squared:  0.9898,	Adjusted R-squared:  0.9895
 F-statistic:  3705 on 9 and 344 DF,  p-value: < 2.2e-16
 
 
---- Summary del Trend Quadratico Segmentato (2, 2, 1) ---
+--- Summary del Trend Segmentato (2, 2, 1) ---
 
 Call:
 lm(formula = pol__grado_221, data = df)
@@ -104,7 +104,7 @@ Multiple R-squared:  0.9896,	Adjusted R-squared:  0.9893
 F-statistic:  4091 on 8 and 345 DF,  p-value: < 2.2e-16
 
 
---- Summary del Trend Quadratico Segmentato (2, 3, 2) ---
+--- Summary del Trend Segmentato (2, 3, 2) ---
 
 Call:
 lm(formula = pol__grado_232, data = df)
@@ -133,7 +133,7 @@ Multiple R-squared:  0.9902,	Adjusted R-squared:  0.9899
 F-statistic:  3466 on 10 and 343 DF,  p-value: < 2.2e-16
 
 
---- Summary del Trend Quadratico Segmentato (2, 3, 1) ---
+--- Summary del Trend Segmentato (2, 3, 1) ---
 
 Call:
 lm(formula = pol__grado_231, data = df)
@@ -161,7 +161,7 @@ Multiple R-squared:   0.99,	Adjusted R-squared:  0.9897
 F-statistic:  3777 on 9 and 344 DF,  p-value: < 2.2e-16
 
 
---- Summary del Trend Quadratico Segmentato (3, 3, 3) ---
+--- Summary del Trend Segmentato (3, 3, 3) ---
 
 Call:
 lm(formula = pol__grado_333, data = df)
@@ -190,3 +190,41 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 9.58 on 341 degrees of freedom
 Multiple R-squared:  0.9903,	Adjusted R-squared:  0.9899 
 F-statistic:  2897 on 12 and 341 DF,  p-value: < 2.2e-16
+
+
+--- Avvio Stima Componente Stagionale ---
+
+--- Summary del Modello Stagionale ---
+
+Call:
+lm(formula = formula_stagionale, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-31.586  -4.986   2.114   6.514  22.959 
+
+Coefficients:
+      Estimate Std. Error t value Pr(>|t|)    
+d_gen   91.747      1.884   48.69   <2e-16 ***
+d_feb   93.917      1.884   49.84   <2e-16 ***
+d_mar  102.253      1.884   54.26   <2e-16 ***
+d_apr   93.180      1.884   49.45   <2e-16 ***
+d_mag   97.560      1.884   51.77   <2e-16 ***
+d_giu   97.986      1.917   51.12   <2e-16 ***
+d_lug   97.286      1.917   50.76   <2e-16 ***
+d_ago   70.028      1.917   36.54   <2e-16 ***
+d_set   99.376      1.917   51.85   <2e-16 ***
+d_ott  100.869      1.917   52.63   <2e-16 ***
+d_nov   98.186      1.917   51.23   <2e-16 ***
+d_dic   93.241      1.917   48.65   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10.32 on 341 degrees of freedom
+Multiple R-squared:  0.9887,	Adjusted R-squared:  0.9883 
+F-statistic:  2491 on 12 and 341 DF,  p-value: < 2.2e-16
+
+
+--- Interpretazione Coefficienti Stagionali ---
+I coefficienti 'Estimate' sono i 'coefficienti grezzi di stagionalità'.
+Ognuno rappresenta il valore medio del fenomeno 'import_volumi' per quello specifico mese.
