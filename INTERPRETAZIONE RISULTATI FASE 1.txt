@@ -35,3 +35,20 @@ Il modello (2, 3, 1) rappresenta un candidato eccellente e, per certi versi, è 
     Parsimonia (Semplicità): Il modello (2, 3, 1) è più semplice (ha 9 parametri) rispetto al (2, 3, 2) (10 parametri) e al (3, 3, 3) (12 parametri).
 
 Verdetto: Il modello (2, 3, 1) è una stima più robusta e parsimoniosa del (2, 3, 2). Spiega essenzialmente la stessa identica quantità di varianza, ma lo fa con un modello più semplice e "pulito", dove ogni singolo termine (sia intercetta che pendenza) è statisticamente significativo
+
+
+Interpretazione dei Risultati Stagionalità
+
+I risultati del tuo summary e il grafico sono molto chiari:
+
+    Significatività Globale: Il modello nel suo complesso è estremamente significativo (il p-value del Test F è < 2.2e-16).
+
+    Significatività dei Mesi: Tutti i 12 coefficienti mensili sono altamente significativi (marcati con ***). Questo conferma l'esistenza di un pattern stagionale forte e statisticamente affidabile.
+
+    Andamento Stagionale: Il grafico (e la colonna Estimate) mostra il "comportamento" medio delle importazioni durante l'anno:
+
+        Picchi: Si registrano valori massimi a Marzo (102.25) e Ottobre (100.87).
+
+        Calo Estivo: C'è un crollo netto ad Agosto (70.03), un fenomeno stagionale molto comune.
+
+        Altri Mesi: I mesi invernali (Gen, Feb) e primaverili/estivi (Apr-Lug) si attestano su valori intermedi, così come gli ultimi mesi dell'anno (Set, Nov, Dic

@@ -213,7 +213,7 @@ print(summary(modello_stagionale))
 
 cat("\n--- Interpretazione Coefficienti Stagionali ---\n")
 cat("I coefficienti 'Estimate' sono i 'coefficienti grezzi di stagionalità'.\n")
-cat("Ognuno rappresenta il valore medio stimato di 'import_volumi' per quel specifico mese.\n")
+cat("Ognuno rappresenta il valore medio del fenomeno 'import_volumi' per quello specifico mese.\n")
 
 # 5. Grafico della stagionalità
 stag_coeffs <- coef(summary(modello_stagionale))[, "Estimate"]
@@ -223,3 +223,30 @@ plot(1:12, stag_coeffs, type = "b",
      xaxt = "n") # Disattiva l'asse x numerico
 axis(1, at = 1:12, labels = c("Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"))
 grid()
+
+# --- GRAFICO: CONFRONTO VALORI OSSERVATI E STAGIONALITA' STIMATA ---
+
+# 1. Estrae i valori stimati (le ordinate stimate) dal modello stagionale
+# Questo crea un vettore lungo quanto la serie originale, dove ogni
+# osservazione è sostituita dal suo coefficiente stagionale grezzo.
+valori_stagionali_stimati <- fitted(modello_stagionale)
+
+# 2. Crea il grafico di confronto
+plot(df$datazione, df$import_volumi, type = "l", 
+     col = "blue", 
+     main = "Valori Osservati vs. Stagionalità Stimata",
+     xlab = "Data", 
+     ylab = "Indice Volumi",
+     lwd = 1)
+
+# 3. Sovrappone la linea della stagionalità stimata
+lines(df$datazione, valori_stagionali_stimati, col = "red", lwd = 2, lty = 2)
+grid()
+
+# 4. Aggiungi una legenda
+legend("topleft",
+       legend = c("Valori Osservati (import_volumi)", "Stagionalità Stimata (Medie Mensili)"),
+       col = c("blue", "red"),
+       lwd = c(1, 2),
+       lty = c(1, 2),
+       bty = "n")
