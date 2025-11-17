@@ -55,7 +55,7 @@ df <- data.frame(datazione = datazione,
                  d3 = d3)
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (1, 1, 1) ---
-pol__grado_111 <- import_volumi ~ seg + I(t * d1) + I(t * d2) + I(t * d3)
+pol__grado_111 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t * d2) + I(t * d3) - 1
 # 'seg' stima un'intercetta diversa per ogni segmento
 # 'I(t * d1)' ecc. stima un trend diverso per ogni segmento
 # La funzione I() assicura che R calcoli (t * d1) prima di inserirlo nel modello.
@@ -73,8 +73,8 @@ print(summary(modello_stimato_grado_111))
 #-------------------------------------------------------------------------------
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (1, 2, 1) ---
-pol__grado_121 <- import_volumi ~ seg + I(t * d1) +
-  I(t * d2) + I(t^2 * d2) + I(t * d3)
+pol__grado_121 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) +
+  I(t * d2) + I(t^2 * d2) + I(t * d3) -1
 
 #--- STIMA TREND (1, 2, 1) ---
 modello_stimato_grado_121 <- lm(pol__grado_121, data = df)
@@ -87,8 +87,8 @@ print(summary(modello_stimato_grado_121))
 #-------------------------------------------------------------------------------
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (2, 2, 2) ---
-pol__grado_222 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
-  I(t * d2) + I(t^2 * d2) + I(t * d3) + I(t^2 * d3)
+pol__grado_222 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t * d3) + I(t^2 * d3) - 1
 
 #--- STIMA TREND (2, 2, 2) ---
 modello_stimato_grado_222 <- lm(pol__grado_222, data = df)
@@ -101,8 +101,8 @@ print(summary(modello_stimato_grado_222))
 #-------------------------------------------------------------------------------
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (2, 2, 1) ---
-pol__grado_221 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
-  I(t * d2) + I(t^2 * d2) + I(t * d3)
+pol__grado_221 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t * d3) -1
 
 #--- STIMA TREND (2, 2, 1) ---
 modello_stimato_grado_221 <- lm(pol__grado_221, data = df)
@@ -115,8 +115,8 @@ print(summary(modello_stimato_grado_221))
 #-------------------------------------------------------------------------------
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (2, 3, 2) ---
-pol__grado_232 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + 
-  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3)
+pol__grado_232 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3) - 1
 
 #--- STIMA TREND (2, 3, 2) ---
 modello_stimato_grado_232 <- lm(pol__grado_232, data = df)
@@ -129,8 +129,8 @@ print(summary(modello_stimato_grado_232))
 #-------------------------------------------------------------------------------
 
 # --- COSTRUZIONE FORMULA SEGMENTATA (3, 3, 3) ---
-pol__grado_333 <- import_volumi ~ seg + I(t * d1) + I(t^2 * d1) + I(t^3 * d1) +
-  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3) + I(t^3 * d3)
+pol__grado_333 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t^2 * d1) + I(t^3 * d1) +
+  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) + I(t^2 * d3) + I(t^3 * d3) - 1
 
 #--- STIMA TREND (3, 3, 3) ---
 modello_stimato_grado_333 <- lm(pol__grado_333, data = df)
@@ -158,5 +158,5 @@ legend("topleft",
                   "Trend segmentato 2, 3, 2",
                   "Trend segmentato 3, 3, 3"),
        col = c("blue", "purple","red", "orange", "green"),
-       lwd = c(1, 2, 2),
+       lwd = c(1, 2, 2, 2, 2),
        bty = "n")

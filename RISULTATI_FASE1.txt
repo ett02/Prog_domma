@@ -1,0 +1,164 @@
+--- Summary del Trend Lineare Segmentato (1, 1, 1) ---
+
+Call:
+lm(formula = pol__grado_111, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-38.197  -3.904   1.723   6.307  18.672 
+
+Coefficients:
+           Estimate Std. Error t value Pr(>|t|)    
+d1         71.76366    1.68615  42.561  < 2e-16 ***
+d2        105.94600   17.72834   5.976 5.67e-09 ***
+d3         73.70156    4.72617  15.594  < 2e-16 ***
+I(t * d1)   0.28515    0.02018  14.133  < 2e-16 ***
+I(t * d2)  -0.05302    0.10486  -0.506    0.613    
+I(t * d3)   0.08142    0.01707   4.770 2.71e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10.06 on 347 degrees of freedom
+Multiple R-squared:  0.9891,	Adjusted R-squared:  0.9889 
+F-statistic:  5243 on 6 and 347 DF,  p-value: < 2.2e-16
+
+
+--- Summary del Trend Segmentato (1, 2, 1) ---
+
+Call:
+lm(formula = pol__grado_121, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-38.197  -3.530   1.767   6.145  18.672 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           71.763656   1.677202  42.788  < 2e-16 ***
+d2          621.659283 238.189844   2.610  0.00945 ** 
+d3           73.701561   4.701078  15.678  < 2e-16 ***
+I(t * d1)     0.285147   0.020069  14.208  < 2e-16 ***
+I(t * d2)    -6.215902   2.840524  -2.188  0.02932 *  
+I(t^2 * d2)   0.018287   0.008423   2.171  0.03060 *  
+I(t * d3)     0.081415   0.016976   4.796 2.41e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10.01 on 346 degrees of freedom
+Multiple R-squared:  0.9892,	Adjusted R-squared:  0.989 
+F-statistic:  4543 on 7 and 346 DF,  p-value: < 2.2e-16
+
+
+--- Summary del Trend Quadratico Segmentato (2, 2, 2) ---
+
+Call:
+lm(formula = pol__grado_222, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.577  -2.935   1.788   6.132  15.921 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           6.553e+01  2.479e+00  26.435  < 2e-16 ***
+d2           6.217e+02  2.327e+02   2.672 0.007902 ** 
+d3          -4.834e+00  2.923e+01  -0.165 0.868748    
+I(t * d1)    5.412e-01  7.893e-02   6.856 3.29e-11 ***
+I(t^2 * d1) -1.766e-03  5.273e-04  -3.348 0.000903 ***
+I(t * d2)   -6.216e+00  2.775e+00  -2.240 0.025715 *  
+I(t^2 * d2)  1.829e-02  8.228e-03   2.223 0.026892 *  
+I(t * d3)    6.739e-01  2.184e-01   3.085 0.002199 ** 
+I(t^2 * d3) -1.085e-03  3.989e-04  -2.720 0.006854 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.779 on 344 degrees of freedom
+Multiple R-squared:  0.9898,	Adjusted R-squared:  0.9895 
+F-statistic:  3705 on 9 and 344 DF,  p-value: < 2.2e-16
+
+
+--- Summary del Trend Quadratico Segmentato (2, 2, 1) ---
+
+Call:
+lm(formula = pol__grado_221, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.577  -3.095   1.704   6.367  15.921 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           6.553e+01  2.502e+00  26.193  < 2e-16 ***
+d2           6.217e+02  2.348e+02   2.647  0.00848 ** 
+d3           7.370e+01  4.635e+00  15.903  < 2e-16 ***
+I(t * d1)    5.412e-01  7.966e-02   6.793 4.82e-11 ***
+I(t^2 * d1) -1.766e-03  5.322e-04  -3.318  0.00100 ** 
+I(t * d2)   -6.216e+00  2.800e+00  -2.220  0.02709 *  
+I(t^2 * d2)  1.829e-02  8.304e-03   2.202  0.02831 *  
+I(t * d3)    8.142e-02  1.674e-02   4.865 1.75e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.869 on 345 degrees of freedom
+Multiple R-squared:  0.9896,	Adjusted R-squared:  0.9893 
+F-statistic:  4091 on 8 and 345 DF,  p-value: < 2.2e-16
+
+
+--- Summary del Trend Quadratico Segmentato (2, 3, 2) ---
+
+Call:
+lm(formula = pol__grado_232, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.577  -2.935   1.882   5.795  15.781 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           6.553e+01  2.432e+00  26.946  < 2e-16 ***
+d2           1.255e+04  3.149e+03   3.986 8.20e-05 ***
+d3          -4.834e+00  2.868e+01  -0.169 0.866234    
+I(t * d1)    5.412e-01  7.744e-02   6.989 1.45e-11 ***
+I(t^2 * d1) -1.766e-03  5.173e-04  -3.413 0.000719 ***
+I(t * d2)   -2.204e+02  5.644e+01  -3.905 0.000114 ***
+I(t^2 * d2)  1.294e+00  3.360e-01   3.852 0.000140 ***
+I(t^3 * d2) -2.524e-03  6.645e-04  -3.799 0.000172 ***
+I(t * d3)    6.739e-01  2.143e-01   3.145 0.001807 ** 
+I(t^2 * d3) -1.085e-03  3.914e-04  -2.773 0.005860 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.593 on 343 degrees of freedom
+Multiple R-squared:  0.9902,	Adjusted R-squared:  0.9899 
+F-statistic:  3466 on 10 and 343 DF,  p-value: < 2.2e-16
+
+
+--- Summary del Trend Quadratico Segmentato (3, 3, 3) ---
+
+Call:
+lm(formula = pol__grado_333, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-39.277  -2.933   2.004   5.791  16.454 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           6.173e+01  3.278e+00  18.832  < 2e-16 ***
+d2           1.255e+04  3.144e+03   3.992 8.03e-05 ***
+d3          -1.412e+01  1.869e+02  -0.076 0.939819    
+I(t * d1)    8.502e-01  1.951e-01   4.358 1.74e-05 ***
+I(t^2 * d1) -7.076e-03  3.121e-03  -2.267 0.023999 *  
+I(t^3 * d1)  2.442e-05  1.415e-05   1.725 0.085373 .  
+I(t * d2)   -2.204e+02  5.636e+01  -3.910 0.000111 ***
+I(t^2 * d2)  1.294e+00  3.355e-01   3.858 0.000137 ***
+I(t^3 * d2) -2.525e-03  6.636e-04  -3.804 0.000169 ***
+I(t * d3)    7.797e-01  2.115e+00   0.369 0.712555    
+I(t^2 * d3) -1.480e-03  7.852e-03  -0.188 0.850657    
+I(t^3 * d3)  4.814e-07  9.575e-06   0.050 0.959931    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.58 on 341 degrees of freedom
+Multiple R-squared:  0.9903,	Adjusted R-squared:  0.9899 
+F-statistic:  2897 on 12 and 341 DF,  p-value: < 2.2e-16

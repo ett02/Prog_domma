@@ -1,0 +1,25 @@
+Interpretazione e Confronto dei Modelli di Trend Segmentati
+
+Conclusione: Il modello (2, 3, 2) è la stima migliore.
+
+Questo modello non solo ha l'Adjusted R-squared più alto, ma tutti i suoi coefficienti di trend sono statisticamente significativi, indicando che la sua complessità è pienamente giustificata dai dati.
+
+Per selezionare il modello migliore, abbiamo usato due criteri principali: l'Adjusted R-squared (R2), che bilancia la bontà di adattamento con la complessità, e la Significatività dei Coefficienti (p-value < 0.05).
+
+Interpretazione Dettagliata
+
+    Modello (1, 1, 1): Questo modello è il peggiore. Il p-value per il trend del Segmento 2 (I(t * d2)) è 0.613, dimostrando che un semplice trend lineare non è assolutamente in grado di descrivere il periodo della crisi.
+
+    Modello (1, 2, 1): Introducendo un termine quadratico (t2) solo per il Segmento 2, l' R2 migliora e, soprattutto, i coefficienti del trend del Segmento 2 diventano significativi (p < 0.05). Questo dimostra che il periodo della crisi ha avuto un andamento non lineare (una curva).
+
+    Modelli (2, 2, 1) e (2, 2, 2): Questi modelli applicano una curva (t2) anche ai segmenti 1 e 3. L' R2 continua ad aumentare (fino a 0.9895 per il (2, 2, 2)), e tutti i coefficienti del trend rimangono significativi. Questo suggerisce che anche i periodi pre e post-crisi sono descritti meglio da una curva che da una retta.
+
+    Modello (3, 3, 3) - L'Overfitting: Questo modello è un esempio perfetto di overfitting, un rischio menzionato nel PDF. Sebbene l' R2 sia 0.9899, i nuovi termini aggiunti ( t3 nei segmenti 1 e 3) sono completamente non significativi (p-values di 0.085, 0.712, 0.850, 0.959). Questo modello è troppo complesso e i suoi risultati non sono affidabili.
+
+    🏆 Modello (2, 3, 2) - Il Vincitore: Questo modello trova il bilanciamento perfetto. Ha l' R2 più alto (0.9899), e a differenza del (3, 3, 3), tutti i suoi coefficienti di trend sono statisticamente significativi. L'analisi ci dice che:
+
+        Seg 1 (Pre-Crisi): Un trend quadratico (curvo) è appropriato.
+
+        Seg 2 (Crisi): Un trend cubico (t3) è il migliore per descrivere la complessa dinamica di "caduta e ripresa" (tutti i termini sono ***).
+
+        Seg 3 (Post-Crisi): Un trend quadratico è di nuovo appropriato
