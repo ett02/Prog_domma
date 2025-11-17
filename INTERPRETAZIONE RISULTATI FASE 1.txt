@@ -16,10 +16,22 @@ Interpretazione Dettagliata
 
     Modello (3, 3, 3) - L'Overfitting: Questo modello è un esempio perfetto di overfitting, un rischio menzionato nel PDF. Sebbene l' R2 sia 0.9899, i nuovi termini aggiunti ( t3 nei segmenti 1 e 3) sono completamente non significativi (p-values di 0.085, 0.712, 0.850, 0.959). Questo modello è troppo complesso e i suoi risultati non sono affidabili.
 
-    🏆 Modello (2, 3, 2) - Il Vincitore: Questo modello trova il bilanciamento perfetto. Ha l' R2 più alto (0.9899), e a differenza del (3, 3, 3), tutti i suoi coefficienti di trend sono statisticamente significativi. L'analisi ci dice che:
+    Modello (2, 3, 2) - Questo modello ha l' R2 più alto (0.9899), e a differenza del (3, 3, 3), tutti i suoi coefficienti di trend sono statisticamente significativi. L'analisi ci dice che:
 
         Seg 1 (Pre-Crisi): Un trend quadratico (curvo) è appropriato.
 
         Seg 2 (Crisi): Un trend cubico (t3) è il migliore per descrivere la complessa dinamica di "caduta e ripresa" (tutti i termini sono ***).
 
         Seg 3 (Post-Crisi): Un trend quadratico è di nuovo appropriato
+
+Interpretazione del Modello (2, 3, 1)
+
+Il modello (2, 3, 1) rappresenta un candidato eccellente e, per certi versi, è il più robusto tra tutti quelli testati.
+
+    Bontà di Adattamento ( R2 Corretto): Il suo R2 corretto è 0.9897. Questo valore è marginalmente superiore al (2, 2, 2) (0.9895) e quasi identico al (2, 3, 2) (0.9899). Ciò significa che la sua capacità di spiegare i dati è ai massimi livelli, alla pari con i modelli più complessi.
+
+    Significatività (p-value): Questo è il suo vero punto di forza. A differenza dei modelli (2, 2, 2) e (2, 3, 2), che avevano un'intercetta non significativa per il segmento 3 (d3), il modello (2, 3, 1) ha tutti i coefficienti statisticamente significativi (tutti i p-value sono < 0.05).
+
+    Parsimonia (Semplicità): Il modello (2, 3, 1) è più semplice (ha 9 parametri) rispetto al (2, 3, 2) (10 parametri) e al (3, 3, 3) (12 parametri).
+
+Verdetto: Il modello (2, 3, 1) è una stima più robusta e parsimoniosa del (2, 3, 2). Spiega essenzialmente la stessa identica quantità di varianza, ma lo fa con un modello più semplice e "pulito", dove ogni singolo termine (sia intercetta che pendenza) è statisticamente significativo

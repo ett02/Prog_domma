@@ -109,7 +109,7 @@ modello_stimato_grado_221 <- lm(pol__grado_221, data = df)
 trend_pol_seg221 <- fitted(modello_stimato_grado_221)
 
 # --- STAMPA RISULTATI (2, 2, 1) ---
-cat("\n--- Summary del Trend Quadratico Segmentato (2, 2, 1) ---\n")
+cat("\n--- Summary del Trend Segmentato (2, 2, 1) ---\n")
 print(summary(modello_stimato_grado_221))
 
 #-------------------------------------------------------------------------------
@@ -123,8 +123,22 @@ modello_stimato_grado_232 <- lm(pol__grado_232, data = df)
 trend_pol_seg232 <- fitted(modello_stimato_grado_232)
 
 # --- STAMPA RISULTATI (2, 3, 2) ---
-cat("\n--- Summary del Trend Quadratico Segmentato (2, 3, 2) ---\n")
+cat("\n--- Summary del Trend Segmentato (2, 3, 2) ---\n")
 print(summary(modello_stimato_grado_232))
+
+#-------------------------------------------------------------------------------
+
+# --- COSTRUZIONE FORMULA SEGMENTATA (2, 3, 1) ---
+pol__grado_231 <- import_volumi ~ d1 + d2 + d3 + I(t * d1) + I(t^2 * d1) + 
+  I(t * d2) + I(t^2 * d2) + I(t^3 * d2) + I(t * d3) - 1
+
+#--- STIMA TREND (2, 3, 1) ---
+modello_stimato_grado_231 <- lm(pol__grado_231, data = df)
+trend_pol_seg231 <- fitted(modello_stimato_grado_231)
+
+# --- STAMPA RISULTATI (2, 3, 1) ---
+cat("\n--- Summary del Trend Segmentato (2, 3, 1) ---\n")
+print(summary(modello_stimato_grado_231))
 
 #-------------------------------------------------------------------------------
 
@@ -137,7 +151,7 @@ modello_stimato_grado_333 <- lm(pol__grado_333, data = df)
 trend_pol_seg333 <- fitted(modello_stimato_grado_333)
 
 # --- STAMPA RISULTATI (3, 3, 3) ---
-cat("\n--- Summary del Trend Quadratico Segmentato (3, 3, 3) ---\n")
+cat("\n--- Summary del Trend Segmentato (3, 3, 3) ---\n")
 print(summary(modello_stimato_grado_333))
 
 #-------------------------------------------------------------------------------
@@ -148,6 +162,7 @@ print(summary(modello_stimato_grado_333))
 lines(datazione, trend_pol1_seg111, col = "purple", lwd = 2)
 lines(datazione, trend_pol_seg222, col = "red", lwd = 2)
 lines(datazione, trend_pol_seg232, col = "orange", lwd = 2)
+lines(datazione, trend_pol_seg231, col = "violet", lwd = 2)
 lines(datazione, trend_pol_seg333, col = "green", lwd = 2)
 
 # Aggiungi una legenda
@@ -156,7 +171,8 @@ legend("topleft",
                   "Trend segmentato 1, 1, 1",
                   "Trend segmentato 2, 2, 2",
                   "Trend segmentato 2, 3, 2",
+                  "Trend segmentato 2, 3, 1",
                   "Trend segmentato 3, 3, 3"),
-       col = c("blue", "purple","red", "orange", "green"),
-       lwd = c(1, 2, 2, 2, 2),
+       col = c("blue", "purple","red", "orange", "violet", "green"),
+       lwd = c(1, 2, 2, 2, 2, 2),
        bty = "n")

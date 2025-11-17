@@ -133,6 +133,34 @@ Multiple R-squared:  0.9902,	Adjusted R-squared:  0.9899
 F-statistic:  3466 on 10 and 343 DF,  p-value: < 2.2e-16
 
 
+--- Summary del Trend Quadratico Segmentato (2, 3, 1) ---
+
+Call:
+lm(formula = pol__grado_231, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.577  -3.059   1.704   5.944  15.891 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+d1           6.553e+01  2.456e+00  26.688  < 2e-16 ***
+d2           1.255e+04  3.179e+03   3.948 9.56e-05 ***
+d3           7.370e+01  4.549e+00  16.203  < 2e-16 ***
+I(t * d1)    5.412e-01  7.819e-02   6.922 2.20e-11 ***
+I(t^2 * d1) -1.766e-03  5.223e-04  -3.380 0.000807 ***
+I(t * d2)   -2.204e+02  5.699e+01  -3.867 0.000132 ***
+I(t^2 * d2)  1.294e+00  3.393e-01   3.815 0.000161 ***
+I(t^3 * d2) -2.524e-03  6.710e-04  -3.762 0.000198 ***
+I(t * d3)    8.142e-02  1.643e-02   4.957 1.13e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.686 on 344 degrees of freedom
+Multiple R-squared:   0.99,	Adjusted R-squared:  0.9897 
+F-statistic:  3777 on 9 and 344 DF,  p-value: < 2.2e-16
+
+
 --- Summary del Trend Quadratico Segmentato (3, 3, 3) ---
 
 Call:
