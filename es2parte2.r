@@ -71,7 +71,7 @@ print(summary(modello2))
 
 # Condition Number (Indice di Condizionamento)
 # Formula: K = sqrt(lambda_max / lambda_min)
-X <- cbind(area, labor, fert) # matrice di tutti i regressori
+X <- cbind(area, labor, fert) # matrice dei regressori utilizzati
 aut1<-eigen(t(X)%*%X) # autovalori di X(trasp)X
 k<-sqrt(max(aut1$values)/min(aut1$values)) #condition number
 cat("\n--- Condition Number (K) ---\n")
@@ -137,11 +137,6 @@ par(mfrow=c(1,2))
 hist(dati_rice$prod, main="Produzione Originale", col="lightblue")
 hist(dati_rice$l_prod, main="Log(Produzione)", col="lightgreen")
 
-# Confronto tra ordinate stimate (sprod) e ordinate osservate (prod)
-sprod <- fitted(modello_loglog);
-plot(sprod, dati_rice$prod)
-plot(sprod, dati_rice$l_prod)
-
 # --- VALIDAZIONE DEL MODELLO LOG-LOG (Analisi dei Residui) ---
 
 # Costruiamo l’istogramma dei residui (standardizzati e non)
@@ -156,23 +151,3 @@ plot(resstand)
 # lungo una retta a 45° si può concludere che i residui standardizzati
 # seguono una legge Normale. 
 qqnorm(resstand, xlim=c(-4,4), ylim=c(-2,2)); qqline(resstand)
-
-# 1. Grafico Residui vs. Valori Stimati (per Omoschedasticità)
-# Cosa cercare: Una nuvola di punti casuale senza forme a "imbuto" o curve.
-#par(mfrow=c(2,2)) # Imposta layout 2x2 per i grafici
-#plot(modello_loglog, which=1) 
-
-# 2. Q-Q Plot (per Normalità)
-# Cosa cercare: I punti dovrebbero seguire la linea tratteggiata.
-#plot(modello_loglog, which=2)
-
-# 3. Test di Normalità (Shapiro-Wilk)
-# H0: I residui sono normali. Se p-value > 0.05, assumiamo normalità.
-shapiro_test <- shapiro.test(residuals(modello_loglog))
-print(shapiro_test)
-
-# 4. Test di Omoschedasticità (Breusch-Pagan)
-# H0: Omoschedasticità presente (varianza costante).
-# Se p-value > 0.05, tutto ok.
-bp_test <- bptest(modello_loglog)
-print(bp_test)
