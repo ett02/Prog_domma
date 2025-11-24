@@ -100,6 +100,11 @@ print(tolerance_values)
 # Interpretazione:
 # Tolerance < 0.1: Indica una GRAVE multicollinearità (corrisponde a VIF > 10).
 
+# rj0
+rj0 <- (vif(modello2)-1)/vif(modello2)
+cat("\n--- rj0 ---\n")
+print(rj0)
+
 # --- GESTIONE DELLA MULTICOLLINEARITÀ: TRASFORMAZIONE LOG-LOG ---
 
 # Trasformazione delle variabili
@@ -131,6 +136,11 @@ print(vif_values_loglog)
 tolerance_values_loglog <- 1 / vif_values_loglog
 cat("\n--- Tolerance (Tolleranza) ---\n")
 print(tolerance_values_loglog)
+
+# Verifica rj0 sul nuovo modello
+rj0_loglog <- (vif(modello_loglog)-1)/vif(modello_loglog)
+cat("\n--- rj0 ---\n")
+print(rj0_loglog)
 
 # Confronto Grafico
 par(mfrow=c(1,2))
