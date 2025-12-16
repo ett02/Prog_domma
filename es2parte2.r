@@ -4,6 +4,7 @@ library(ggplot2)
 library(DAAG)
 library(car)
 library(lmtest)
+library(MASS)
 
 # Caricamento Dati
 file_path_excel <- "C:/uniLM/Modelli statistici/Esercizio 2/Parte2/3_rice.xlsx" 
@@ -161,3 +162,150 @@ plot(resstand)
 # lungo una retta a 45° si può concludere che i residui standardizzati
 # seguono una legge Normale. 
 qqnorm(resstand, xlim=c(-4,4), ylim=c(-2,2)); qqline(resstand)
+
+# --- ANALISI DELL'ETEROSCHEDASTICITÀ ---
+
+cat("\n\n############################################################\n")
+cat("### ANALISI ETEROSCHEDASTICITÀ SUL MODELLO LINEARE (Modello 3). Regressori: year, area, labor, fert###\n")
+cat("############################################################\n")
+
+modello3 <- lm(prod ~ year + area + labor + fert, data = dati_rice)
+
+# 1. Analisi Grafica (Slide 28-30)
+# Plot dei residui vs valori stimati (fitted values)
+res2 <- resid(modello3)          # Residui epsilon cappuccio
+fit2 <- fitted(modello3)         # Valori stimati y cappuccio
+
+# Grafico
+plot(fit2, res2, 
+     main = "Plot Residui vs Valori Stimati (Modello 3)",
+     xlab = "Valori Stimati (Fitted)", 
+     ylab = "Residui",
+     pch = 20, col = "blue")
+abline(h = 0, col = "red", lwd = 2) 
+# NOTA: Se c'è una forma a "imbuto" (variabilità che cresce), c'è eteroschedasticità.
+
+# 2. Test di Breusch-Pagan (Manuale come in Slide 38, 53)
+# Ipotesi H0: Omoschedasticità
+# Ipotesi H1: La varianza dipende linearmente dai regressori (area, labor, fert)
+
+res2_sq <- res2^2  # Residui al quadrato (epsilon^2)
+
+# Modello ausiliario: residui^2 ~ regressori
+mod_bp_linear <- lm(res2_sq ~ year + area + labor + fert, data = dati_rice)
+
+cat("\n--- Test Breusch-Pagan su Modello 3 ---\n")
+summary_bp <- summary(mod_bp_linear)
+print(summary_bp)
+
+# Calcolo statistica Chi-Quadro
+n <- nrow(dati_rice)
+R2_bp <- summary_bp$r.squared
+BP_stat <- n * R2_bp
+p_value_BP <- 1 - pchisq(BP_stat, df = 4) # df = numero regressori (senza intercetta)
+
+cat(paste("Statistica LM (n*R2):", round(BP_stat, 4), "\n"))
+cat(paste("P-value Chi-Quadro:", format.pval(p_value_BP), "\n"))
+if(p_value_BP < 0.05) cat("ESITO: Rifiuto H0. C'è eteroschedasticità.\n") else cat("ESITO: Accetto H0. Omoschedasticità plausibile.\n")
+
+# 3. Test di White (Versione speciale con Y cappuccio)
+# Modello ausiliario: residui^2 ~ y_stimata + y_stimata^2
+
+fit2_sq <- fit2^2 # Valori stimati al quadrato
+
+mod_white_linear <- lm(res2_sq ~ fit2 + fit2_sq)
+
+cat("\n--- Test di White su Modello 3 ---\n")
+summary_white <- summary(mod_white_linear)
+print(summary_white)
+
+# Calcolo statistica Chi-Quadro (n * R^2)
+R2_white <- summary_white$r.squared
+White_stat <- n * R2_white
+p_value_White <- 1 - pchisq(White_stat, df = 2) # df = 2 (fit2 e fit2^2)
+
+cat(paste("Statistica LM (n*R2):", round(White_stat, 4), "\n"))
+cat(paste("P-value Chi-Quadro:", format.pval(p_value_White), "\n"))
+if(p_value_White < 0.05) cat("ESITO: Rifiuto H0. C'è eteroschedasticità.\n") else cat("ESITO: Accetto H0. Omoschedasticità plausibile.\n")
+
+cat("\n\n############################################################\n")
+cat("### ANALISI ETEROSCHEDASTICITÀ SUL MODELLO LOG-LOG ###\n")
+cat("############################################################\n")
+# Il logaritmo spesso stabilizza la varianza.
+
+# 1. Analisi Grafica
+res_log <- resid(modello_loglog)
+fit_log <- fitted(modello_loglog)
+
+plot(fit_log, res_log, 
+     main = "Plot Residui vs Valori Stimati (Modello Log-Log)",
+     xlab = "Valori Stimati (Log)", 
+     ylab = "Residui",
+     pch = 20, col = "darkgreen")
+abline(h = 0, col = "red", lwd = 2)
+
+# 2. Test Breusch-Pagan su Log-Log
+res_log_sq <- res_log^2
+
+# Nota: uso i regressori logaritmici usati nel modello_loglog
+mod_bp_log <- lm(res_log_sq ~ l_area + l_labor + l_fert, data = dati_rice)
+
+cat("\n--- Test Breusch-Pagan su Modello Log-Log ---\n")
+summary_bp_log <- summary(mod_bp_log)
+print(summary_bp_log)
+
+R2_bp_log <- summary_bp_log$r.squared
+BP_stat_log <- n * R2_bp_log
+p_value_BP_log <- 1 - pchisq(BP_stat_log, df = 3)
+
+cat(paste("Statistica LM (n*R2):", round(BP_stat_log, 4), "\n"))
+cat(paste("P-value Chi-Quadro:", format.pval(p_value_BP_log), "\n"))
+if(p_value_BP_log < 0.05) cat("ESITO: Rifiuto H0. Eteroschedasticità persiste.\n") else cat("ESITO: Accetto H0. Omoschedasticità raggiunta.\n")
+
+# 3. Test di White su Log-Log
+fit_log_sq <- fit_log^2
+mod_white_log <- lm(res_log_sq ~ fit_log + fit_log_sq)
+
+cat("\n--- Test di White su Modello Log-Log ---\n")
+summary_white_log <- summary(mod_white_log)
+print(summary_white_log)
+
+R2_white_log <- summary_white_log$r.squared
+White_stat_log <- n * R2_white_log
+p_value_White_log <- 1 - pchisq(White_stat_log, df = 2)
+
+cat(paste("Statistica LM (n*R2):", round(White_stat_log, 4), "\n"))
+cat(paste("P-value Chi-Quadro:", format.pval(p_value_White_log), "\n"))
+if(p_value_White_log < 0.05) cat("ESITO: Rifiuto H0. Eteroschedasticità persiste.\n") else cat("ESITO: Accetto H0. Omoschedasticità raggiunta.\n")
+
+############################################################
+###       STIMA DEL MODELLO ROBUSTO (RLM)                ###
+############################################################
+# Visto che i test precedenti (BP/White) 
+# segnalano problemi sui residui (eteroschedasticità/outliers), 
+# procediamo con la stima robusta.
+
+# Stima del Modello Robusto
+# Utilizziamo le stesse variabili del modello Log-Log (che aveva risolto la multicollinearità)
+mod_rlm <- rlm(l_prod ~ l_area + l_labor + l_fert, data = dati_rice)
+
+cat("\n--- Summary del Modello Robusto (RLM) ---\n")
+summary(mod_rlm)
+
+# Confronto visivo dei residui
+# Plot: Valori Previsti vs Residui
+
+plot(fitted(mod_rlm), resid(mod_rlm),
+     main = "Residui vs Fitted (Robust Linear Model)",
+     xlab = "Valori Previsti (RLM)",
+     ylab = "Residui (RLM)",
+     col  = "blue",    # Colore punti come nell'immagine
+     pch  = 20)        # Stile punti (pallino pieno)
+
+# Aggiunta della linea rossa orizzontale allo zero
+abline(h = 0, col = "red", lwd = 2)
+
+# --- Confronto rapido dei coefficienti OLS vs RLM ---
+cat("\n--- Confronto Coefficienti: OLS (Log-Log) vs RLM ---\n")
+confronto <- compareCoefs(modello_loglog, mod_rlm)
+print(confronto)
