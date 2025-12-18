@@ -5,6 +5,7 @@ library(DAAG)
 library(car)
 library(lmtest)
 library(MASS)
+library(glmnet)
 
 # Caricamento Dati
 file_path_excel <- "C:/uniLM/Modelli statistici/Esercizio 2/Parte2/3_rice.xlsx" 
@@ -290,7 +291,7 @@ if(p_value_White_log < 0.05) cat("ESITO: Rifiuto H0. Eteroschedasticità persist
 mod_rlm <- rlm(l_prod ~ l_area + l_labor + l_fert, data = dati_rice)
 
 cat("\n--- Summary del Modello Robusto (RLM) ---\n")
-summary(mod_rlm)
+print(summary(mod_rlm))
 
 # Confronto visivo dei residui
 # Plot: Valori Previsti vs Residui
@@ -309,3 +310,73 @@ abline(h = 0, col = "red", lwd = 2)
 cat("\n--- Confronto Coefficienti: OLS (Log-Log) vs RLM ---\n")
 confronto <- compareCoefs(modello_loglog, mod_rlm)
 print(confronto)
+
+############################################################
+###       REGOLARIZZAZIONE: RIDGE E LASSO                ###
+############################################################
+
+# model.matrix converte automaticamente i fattori in dummy variables e rimuove l'intercetta ([, -1])
+x_vars <- model.matrix(l_prod ~ l_area + l_labor + l_fert, data = dati_rice)[, -1]
+# Variabile dipendente
+y_var <- dati_rice$l_prod
+# Griglia di lambda
+grid <- 10^seq(10, -2, length = 100)
+
+#-----------------------------------------------------------
+# RIDGE REGRESSION (alpha = 0)
+#-----------------------------------------------------------
+# Eseguiamo la Cross-Validation per trovare il lambda ottimale (Best Lambda)
+set.seed(123) # fissiamo il seed per rendere riproducibile l ’ esperimento
+cv_ridge <- cv.glmnet(x_vars, y_var, alpha = 0, lambda = grid)
+
+# Lambda che minimizza l'errore (MSE)
+best_lam_ridge <- cv_ridge$lambda.min
+cat("\n--- RIDGE REGRESSION ---\n")
+cat("Lambda ottimale Ridge:", best_lam_ridge, "\n")
+
+# Plot dell'errore di Cross-Validation
+plot(cv_ridge, main = "Ridge: MSE vs Log(Lambda)")
+
+# Stima del modello finale con il lambda migliore
+ridge_final <- glmnet(x_vars, y_var, alpha = 0, lambda = best_lam_ridge)
+cat("Coefficienti Ridge:\n")
+print(coef(ridge_final))
+
+
+#-----------------------------------------------------------
+# LASSO REGRESSION (alpha = 1)
+#-----------------------------------------------------------
+
+set.seed(123)
+cv_lasso <- cv.glmnet(x_vars, y_var, alpha = 1, lambda = grid)
+
+# Lambda ottimale
+best_lam_lasso <- cv_lasso$lambda.min
+cat("\n--- LASSO REGRESSION ---\n")
+cat("Lambda ottimale Lasso:", best_lam_lasso, "\n")
+
+# Plot dell'errore
+plot(cv_lasso, main = "Lasso: MSE vs Log(Lambda)")
+
+# Stima del modello finale Lasso
+lasso_final <- glmnet(x_vars, y_var, alpha = 1, lambda = best_lam_lasso)
+cat("Coefficienti Lasso:\n")
+print(coef(lasso_final))
+
+
+#-----------------------------------------------------------
+# 4. CONFRONTO FINALE
+#-----------------------------------------------------------
+# Confrontiamo i coefficienti OLS (Log-Log) con Ridge e Lasso
+coef_ols <- coef(modello_loglog)
+coef_ridge <- as.vector(coef(ridge_final))
+coef_lasso <- as.vector(coef(lasso_final))
+
+confronto_reg <- data.frame(
+  Variabile = rownames(coef(ridge_final)),
+  OLS = round(coef_ols, 4),
+  Ridge = round(coef_ridge, 4),
+  Lasso = round(coef_lasso, 4)
+)
+cat("\n--- CONFRONTO FINALE ---\n")
+print(confronto_reg)
