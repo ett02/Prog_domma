@@ -347,7 +347,7 @@ cat("Coefficienti Lasso:\n")
 print(coef(lasso_final))
 
 
-# 4. CONFRONTO FINALE
+# CONFRONTO FINALE
 # Confrontiamo i coefficienti OLS (Log-Log) con Ridge e Lasso
 
 coef_ols <- coef(modello_loglog)
