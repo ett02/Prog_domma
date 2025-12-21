@@ -47,7 +47,7 @@ scatterplotMatrix(~firm + year + prod + area + labor + fert,
                   diagonal=list(method="histogram", breaks="FD"),
                   main="Matrice di dispersione con rette di regressione",
                   data=dati_rice)
-#NOTA: daL punto di vista empirico correlazioni maggiori di 0.8 
+#NOTA: dal punto di vista empirico correlazioni maggiori di 0.8 
 # possono indurci a pensare che vi sia multicollinearità
 # NOTO CHE C'è GRANDE CORRELAZIONE FRA AREA, LABOR E FERT
 # noto che le rette di regressione per queste 3 variabili non sono parallele all'asse x
@@ -69,7 +69,7 @@ modello2 <- lm(prod ~ area + labor + fert, data = dati_rice)
 cat("\n\n--- Analisi Modello 2 (eliminando firm e year) ---\n")
 print(summary(modello2))
 
-# --- ANALISI DELLA MULTICOLLINEARITÀ ---
+# ANALISI DELLA MULTICOLLINEARITÀ
 
 # Condition Number (Indice di Condizionamento)
 # Formula: K = sqrt(lambda_max / lambda_min)
@@ -107,7 +107,7 @@ rj0 <- (vif(modello2)-1)/vif(modello2)
 cat("\n--- rj0 ---\n")
 print(rj0)
 
-# --- GESTIONE DELLA MULTICOLLINEARITÀ: TRASFORMAZIONE LOG-LOG ---
+# GESTIONE DELLA MULTICOLLINEARITÀ: TRASFORMAZIONE LOG-LOG
 
 # Trasformazione delle variabili
 dati_rice$l_prod  <- log(dati_rice$prod)
@@ -157,22 +157,17 @@ hist(resid(modello_loglog))
 hist(resstand, freq=F, xlim=c(-4,4), ylim=c(0,0.6)); curve(dnorm(x),add=T)
 plot(resstand)
 
-# Il qq-plot è un grafico che mette a confronto i quantili empirici con 
-# i quantili teorici della Normale Standardizzata
-# Se i punti si dispongono tutti
-# lungo una retta a 45° si può concludere che i residui standardizzati
-# seguono una legge Normale. 
+# Il qq-plot è un grafico che mette a confronto i quantili empirici con i quantili teorici della Normale Standardizzata
+# Se i punti si dispongono tutti# lungo una retta a 45° si può concludere che i residui standardizzati seguono una legge Normale. 
 qqnorm(resstand, xlim=c(-4,4), ylim=c(-2,2)); qqline(resstand)
 
-# --- ANALISI DELL'ETEROSCHEDASTICITÀ ---
+# ANALISI DELL'ETEROSCHEDASTICITÀ
 
-cat("\n\n############################################################\n")
 cat("### ANALISI ETEROSCHEDASTICITÀ SUL MODELLO LINEARE (Modello 3). Regressori: year, area, labor, fert###\n")
-cat("############################################################\n")
 
 modello3 <- lm(prod ~ year + area + labor + fert, data = dati_rice)
 
-# 1. Analisi Grafica (Slide 28-30)
+# 1. Analisi Grafica
 # Plot dei residui vs valori stimati (fitted values)
 res2 <- resid(modello3)          # Residui epsilon cappuccio
 fit2 <- fitted(modello3)         # Valori stimati y cappuccio
@@ -186,11 +181,11 @@ plot(fit2, res2,
 abline(h = 0, col = "red", lwd = 2) 
 # NOTA: Se c'è una forma a "imbuto" (variabilità che cresce), c'è eteroschedasticità.
 
-# 2. Test di Breusch-Pagan (Manuale come in Slide 38, 53)
+# 2. Test di Breusch-Pagan
 # Ipotesi H0: Omoschedasticità
 # Ipotesi H1: La varianza dipende linearmente dai regressori (area, labor, fert)
 
-res2_sq <- res2^2  # Residui al quadrato (epsilon^2)
+res2_sq <- res2^2 
 
 # Modello ausiliario: residui^2 ~ regressori
 mod_bp_linear <- lm(res2_sq ~ year + area + labor + fert, data = dati_rice)
@@ -203,7 +198,7 @@ print(summary_bp)
 n <- nrow(dati_rice)
 R2_bp <- summary_bp$r.squared
 BP_stat <- n * R2_bp
-p_value_BP <- 1 - pchisq(BP_stat, df = 4) # df = numero regressori (senza intercetta)
+p_value_BP <- 1 - pchisq(BP_stat, df = 4)
 
 cat(paste("Statistica LM (n*R2):", round(BP_stat, 4), "\n"))
 cat(paste("P-value Chi-Quadro:", format.pval(p_value_BP), "\n"))
@@ -212,7 +207,7 @@ if(p_value_BP < 0.05) cat("ESITO: Rifiuto H0. C'è eteroschedasticità.\n") else
 # 3. Test di White (Versione speciale con Y cappuccio)
 # Modello ausiliario: residui^2 ~ y_stimata + y_stimata^2
 
-fit2_sq <- fit2^2 # Valori stimati al quadrato
+fit2_sq <- fit2^2
 
 mod_white_linear <- lm(res2_sq ~ fit2 + fit2_sq)
 
@@ -223,15 +218,15 @@ print(summary_white)
 # Calcolo statistica Chi-Quadro (n * R^2)
 R2_white <- summary_white$r.squared
 White_stat <- n * R2_white
-p_value_White <- 1 - pchisq(White_stat, df = 2) # df = 2 (fit2 e fit2^2)
+p_value_White <- 1 - pchisq(White_stat, df = 2) # df = 2 perchè consideriamo fit2 e fit2^2
 
 cat(paste("Statistica LM (n*R2):", round(White_stat, 4), "\n"))
 cat(paste("P-value Chi-Quadro:", format.pval(p_value_White), "\n"))
 if(p_value_White < 0.05) cat("ESITO: Rifiuto H0. C'è eteroschedasticità.\n") else cat("ESITO: Accetto H0. Omoschedasticità plausibile.\n")
 
-cat("\n\n############################################################\n")
+
 cat("### ANALISI ETEROSCHEDASTICITÀ SUL MODELLO LOG-LOG ###\n")
-cat("############################################################\n")
+
 # Il logaritmo spesso stabilizza la varianza.
 
 # 1. Analisi Grafica
@@ -279,12 +274,10 @@ cat(paste("Statistica LM (n*R2):", round(White_stat_log, 4), "\n"))
 cat(paste("P-value Chi-Quadro:", format.pval(p_value_White_log), "\n"))
 if(p_value_White_log < 0.05) cat("ESITO: Rifiuto H0. Eteroschedasticità persiste.\n") else cat("ESITO: Accetto H0. Omoschedasticità raggiunta.\n")
 
-############################################################
-###       STIMA DEL MODELLO ROBUSTO (RLM)                ###
-############################################################
-# Visto che i test precedenti (BP/White) 
-# segnalano problemi sui residui (eteroschedasticità/outliers), 
-# procediamo con la stima robusta.
+
+#STIMA DEL MODELLO ROBUSTO (RLM)
+
+# Visto che i test precedenti (BP/White) segnalano problemi sui residui (eteroschedasticità/outliers), procediamo con la stima robusta.
 
 # Stima del Modello Robusto
 # Utilizziamo le stesse variabili del modello Log-Log (che aveva risolto la multicollinearità)
@@ -300,10 +293,9 @@ plot(fitted(mod_rlm), resid(mod_rlm),
      main = "Residui vs Fitted (Robust Linear Model)",
      xlab = "Valori Previsti (RLM)",
      ylab = "Residui (RLM)",
-     col  = "blue",    # Colore punti come nell'immagine
-     pch  = 20)        # Stile punti (pallino pieno)
+     col  = "blue",    
+     pch  = 20)        
 
-# Aggiunta della linea rossa orizzontale allo zero
 abline(h = 0, col = "red", lwd = 2)
 
 # --- Confronto rapido dei coefficienti OLS vs RLM ---
@@ -311,20 +303,16 @@ cat("\n--- Confronto Coefficienti: OLS (Log-Log) vs RLM ---\n")
 confronto <- compareCoefs(modello_loglog, mod_rlm)
 print(confronto)
 
-############################################################
-###       REGOLARIZZAZIONE: RIDGE E LASSO                ###
-############################################################
 
-# model.matrix converte automaticamente i fattori in dummy variables e rimuove l'intercetta ([, -1])
-x_vars <- model.matrix(l_prod ~ l_area + l_labor + l_fert, data = dati_rice)[, -1]
-# Variabile dipendente
+#REGOLARIZZAZIONE: RIDGE E LASSO
+
+x_vars <- model.matrix(l_prod ~ l_area + l_labor + l_fert, data = dati_rice)[, -1] #convertiamo automaticamente i fattori in dummy variables e rimuoviamo l'intercetta ([, -1])
 y_var <- dati_rice$l_prod
-# Griglia di lambda
 grid <- 10^seq(10, -2, length = 100)
 
-#-----------------------------------------------------------
-# RIDGE REGRESSION (alpha = 0)
-#-----------------------------------------------------------
+
+#RIDGE REGRESSION (alpha = 0)
+
 # Eseguiamo la Cross-Validation per trovare il lambda ottimale (Best Lambda)
 set.seed(123) # fissiamo il seed per rendere riproducibile l ’ esperimento
 cv_ridge <- cv.glmnet(x_vars, y_var, alpha = 0, lambda = grid)
@@ -334,7 +322,6 @@ best_lam_ridge <- cv_ridge$lambda.min
 cat("\n--- RIDGE REGRESSION ---\n")
 cat("Lambda ottimale Ridge:", best_lam_ridge, "\n")
 
-# Plot dell'errore di Cross-Validation
 plot(cv_ridge, main = "Ridge: MSE vs Log(Lambda)")
 
 # Stima del modello finale con il lambda migliore
@@ -343,10 +330,7 @@ cat("Coefficienti Ridge:\n")
 print(coef(ridge_final))
 
 
-#-----------------------------------------------------------
 # LASSO REGRESSION (alpha = 1)
-#-----------------------------------------------------------
-
 set.seed(123)
 cv_lasso <- cv.glmnet(x_vars, y_var, alpha = 1, lambda = grid)
 
@@ -355,7 +339,6 @@ best_lam_lasso <- cv_lasso$lambda.min
 cat("\n--- LASSO REGRESSION ---\n")
 cat("Lambda ottimale Lasso:", best_lam_lasso, "\n")
 
-# Plot dell'errore
 plot(cv_lasso, main = "Lasso: MSE vs Log(Lambda)")
 
 # Stima del modello finale Lasso
@@ -364,10 +347,9 @@ cat("Coefficienti Lasso:\n")
 print(coef(lasso_final))
 
 
-#-----------------------------------------------------------
 # 4. CONFRONTO FINALE
-#-----------------------------------------------------------
 # Confrontiamo i coefficienti OLS (Log-Log) con Ridge e Lasso
+
 coef_ols <- coef(modello_loglog)
 coef_ridge <- as.vector(coef(ridge_final))
 coef_lasso <- as.vector(coef(lasso_final))
